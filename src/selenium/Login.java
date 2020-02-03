@@ -5,8 +5,6 @@ import org.openqa.selenium.By;
 public class Login extends StartFirefoxDriver
 {
     private String user;
-    private String pass;
-
 
     public Login()
     {
@@ -31,13 +29,9 @@ public class Login extends StartFirefoxDriver
 
     public boolean checkIfAlreadyLoggedIn()
     {
-        
-        
-        if( driver.findElement( By.xpath( "/html/body/gb-root/gb-main-layout/div/div/sh-header-container/sh-header/div/div/div[2]/button[1]" ) )
-                  .getText()
-                  .contains( "Log" ) )
+                
+        if( driver.findElement( By.xpath( "/html/body/gb-root/gb-main-layout/div/div/sh-header-container/sh-header/div/div/div[2]/button[1]" ) ) != null )
         {
-            System.out.println("Test");
             return false;
         }
 
@@ -55,8 +49,22 @@ public class Login extends StartFirefoxDriver
                   .click();
             driver.findElement( By.xpath( "//*[@id=\"login\"]" ) ).sendKeys( "deank06" );
             driver.findElement( By.xpath( "//*[@id=\"login_password\"]" ) ).sendKeys( "enteronly1" );
-            driver.findElement( By.xpath( "//*[@id=\"login_button\"]" ) ).click();
-        }
-
+            driver.findElement( By.xpath( "//*[@id=\"login_button\"]" ) ).click();       
+            scrapeUsername();
+        }        
     }
+    
+    public String scrapeUsername() {
+               
+        String userScraped = driver.findElement( By.xpath( "/html/body/gb-root/gb-main-layout/div/div/sh-header-container/sh-header/div/div/div[2]/sh-submenu-trigger[2]/div/button" ) ).getText();
+        user = userScraped.substring( 0 , (userScraped.length() -2 )) ;
+
+        return user;       
+    }
+    
+    public String getUser()
+    {
+        return user;
+    }
+
 }

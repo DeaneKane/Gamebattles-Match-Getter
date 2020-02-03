@@ -10,7 +10,7 @@ public class StartFirefoxDriver
         System.setProperty("webdriver.gecko.driver","C:\\SeleniumGecko\\geckodriver.exe");
         FirefoxOptions options = new FirefoxOptions();
         options.setHeadless(true);
-        driver = new FirefoxDriver();
+        driver = new FirefoxDriver(options);
         driver.manage().window().maximize();
         return driver;
     }   

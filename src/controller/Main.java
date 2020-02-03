@@ -5,6 +5,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import selenium.GetTeams;
 import selenium.Login;
 
 @SuppressWarnings("restriction")
@@ -19,16 +20,24 @@ public class Main extends Application
     public void start( Stage primaryStage ) throws Exception
     {
         Scene mainScene;
-        Button button1 = new Button( "Login" );
-        button1.setOnAction( e -> {
+        Button loginButton = new Button( "Login" );
+        loginButton.setOnAction( e -> {
             Login login = new Login();
             login.loginUser();
-            
+            loginButton.setText( login.getUser() );
+            loginButton.setDisable(true);            
         } );
-
+        
+        Button getTeamsButton = new Button( "Load Teams and Details" );
+        getTeamsButton.setOnAction( e -> {
+            GetTeams getTeams = new GetTeams();
+            getTeams.scrapeTeams();
+            
+        });
+        
         // Layout 1
         VBox layout1 = new VBox( 20 );
-        layout1.getChildren().add(  button1 );
+        layout1.getChildren().addAll(  loginButton, getTeamsButton );
         mainScene = new Scene( layout1, 200, 200 );
 
         primaryStage.setScene( mainScene );
