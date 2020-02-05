@@ -5,11 +5,14 @@ import java.util.List;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class GetTeams extends StartFirefoxDriver
 {
     ArrayList<String> teams = new ArrayList<>();
     ArrayList<String> roster = new ArrayList<>();
+    ArrayList<String> teamIds = new ArrayList<>();
     List<WebElement> teamElements;
     List<WebElement> rosterMembers;
 
@@ -40,11 +43,13 @@ public class GetTeams extends StartFirefoxDriver
     {
 
         langElement.click();
+        new WebDriverWait(driver, 20).until(ExpectedConditions.urlContains("team"));
+        String currentUrl = driver.getCurrentUrl();
+        teamIds.add( currentUrl.substring( 69 ));
         rosterMembers = driver.findElementsByClassName( "member-username" );
         for( WebElement languageElement : rosterMembers )
         {
             roster.add( languageElement.getText() );
-            System.out.println(languageElement.getText());
         }
 
     }
