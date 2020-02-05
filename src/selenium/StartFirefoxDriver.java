@@ -5,12 +5,12 @@ import org.openqa.selenium.firefox.FirefoxOptions;
 
 public class StartFirefoxDriver
 {
-    static FirefoxDriver driver;
-    public FirefoxDriver StartFirefox() {
+    static FirefoxDriver driver;   
+    public static FirefoxDriver startFirefox() {
         System.setProperty("webdriver.gecko.driver","C:\\SeleniumGecko\\geckodriver.exe");
         FirefoxOptions options = new FirefoxOptions();
         options.setHeadless(true);
-        driver = new FirefoxDriver(options);
+        driver = new FirefoxDriver();
         driver.manage().window().maximize();
         return driver;
     }   

@@ -54,8 +54,8 @@ public class Main extends Application
         } );
 
         // Layout 1
-        layout1.getChildren().addAll( loginButton, getTeamsButton);
-        mainScene = new Scene( layout1, 200, 200 );
+        layout1.getChildren().addAll( loginButton, getTeamsButton );
+        mainScene = new Scene( layout1, 200, 600 );
 
         primaryStage.setScene( mainScene );
         primaryStage.setTitle( "GB Getter" );

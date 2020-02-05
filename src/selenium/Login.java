@@ -10,7 +10,7 @@ public class Login extends StartFirefoxDriver
     {
 
         // Start Firefox driver with saved settings
-        driver = StartFirefox();
+        driver = startFirefox();
         driver.navigate().to( "https://www.gamebattles.com" );
 
     }
@@ -28,14 +28,8 @@ public class Login extends StartFirefoxDriver
 
 
     public boolean checkIfAlreadyLoggedIn()
-    {
-                
-        if( driver.findElement( By.xpath( "/html/body/gb-root/gb-main-layout/div/div/sh-header-container/sh-header/div/div/div[2]/button[1]" ) ) != null )
-        {
-            return false;
-        }
-
-        return true;
+    {               
+        return driver.findElement( By.xpath( "/html/body/gb-root/gb-main-layout/div/div/sh-header-container/sh-header/div/div/div[2]/button[1]" ) ) == null;
     }
 
     public void loginUser()
