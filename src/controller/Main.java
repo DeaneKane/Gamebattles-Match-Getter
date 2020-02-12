@@ -32,7 +32,14 @@ public class Main extends Application
         VBox layout1 = new VBox( 20 );
         loginButton.setOnAction( e -> {
             Login login = new Login();
-            login.loginUser();
+            try
+            {
+                login.loginUser();
+            }
+            catch( Exception e1 )
+            {
+                e1.printStackTrace();
+            }
             loginButton.setText( login.getUser() );
             loginButton.setDisable( true );
         } );

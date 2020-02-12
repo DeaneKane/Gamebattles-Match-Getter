@@ -1,10 +1,17 @@
 package selenium;
 
+import java.io.File;
+
 import org.openqa.selenium.By;
+
+import storage.LoginDecryption;
+import storage.LoginEncryption;
 
 public class Login extends StartFirefoxDriver
 {
     private String user;
+    private String password;
+    private File detailsFile = new File( "configurations.des" );
 
     public Login()
     {
@@ -32,7 +39,7 @@ public class Login extends StartFirefoxDriver
         return driver.findElement( By.xpath( "/html/body/gb-root/gb-main-layout/div/div/sh-header-container/sh-header/div/div/div[2]/button[1]" ) ) == null;
     }
 
-    public void loginUser()
+    public void loginUser() throws Exception
     {
 
         checkForPrivacyPrompt();
@@ -40,9 +47,20 @@ public class Login extends StartFirefoxDriver
         if( !checkIfAlreadyLoggedIn() )
         {
             driver.findElement( By.xpath( "/html/body/gb-root/gb-main-layout/div/div/sh-header-container/sh-header/div/div/div[2]/button[1]" ) )
-                  .click();
-            driver.findElement( By.xpath( "//*[@id=\"login\"]" ) ).sendKeys( "deank06" );
-            driver.findElement( By.xpath( "//*[@id=\"login_password\"]" ) ).sendKeys( "enteronly1" );
+                  .click();  
+            
+            if(!checkIfDetailsStored()) {
+                LoginEncryption le = new LoginEncryption();
+                le.deletePlainTextFile();
+            }
+            
+            LoginDecryption ld = new LoginDecryption();
+            user = ld.extractUsername();
+            password = ld.extractPassword();
+            ld.deletePlainTextFile();
+            
+            driver.findElement( By.xpath( "//*[@id=\"login\"]" ) ).sendKeys( user );
+            driver.findElement( By.xpath( "//*[@id=\"login_password\"]" ) ).sendKeys( password );
             driver.findElement( By.xpath( "//*[@id=\"login_button\"]" ) ).click();       
             scrapeUsername();
         }        
@@ -59,6 +77,11 @@ public class Login extends StartFirefoxDriver
     public String getUser()
     {
         return user;
+    }
+    
+    public boolean checkIfDetailsStored()
+    {
+        return detailsFile.exists();
     }
 
 }

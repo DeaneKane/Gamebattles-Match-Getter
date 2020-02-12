@@ -33,12 +33,14 @@ public class GetTeams extends StartFirefoxDriver
         
         for( int i = 0; i < size; i++ )
         {
-            List<WebElement> teamElementsInLoop = driver.findElementsByClassName( "team-name" );
             wait.until(ExpectedConditions.elementToBeClickable((By.className("team-name"))));
-            System.out.println(teamElementsInLoop.get( 1 ).getText());
+            List<WebElement> teamElementsInLoop = driver.findElementsByClassName( "team-name" );
+            size = teamElementsInLoop.size();
+            System.out.println(size);          
             System.out.println(teamElementsInLoop.get( i ).getText());
             teams.add( teamElementsInLoop.get(i).getText() );
             scrapeEachTeamDetails( teamElementsInLoop.get( i ) );
+            driver.navigate().back();
         }
 
         return teams;
@@ -60,10 +62,7 @@ public class GetTeams extends StartFirefoxDriver
             System.out.println( languageElement.getText() );
 
         }
-        driver.navigate().back();
-
     }
-
 
     public List<String> getTeams()
     {
