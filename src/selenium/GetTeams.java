@@ -35,8 +35,7 @@ public class GetTeams extends StartFirefoxDriver
         {
             wait.until(ExpectedConditions.elementToBeClickable((By.className("team-name"))));
             List<WebElement> teamElementsInLoop = driver.findElementsByClassName( "team-name" );
-            size = teamElementsInLoop.size();
-            System.out.println(size);          
+            size = teamElementsInLoop.size();         
             System.out.println(teamElementsInLoop.get( i ).getText());
             teams.add( teamElementsInLoop.get(i).getText() );
             scrapeEachTeamDetails( teamElementsInLoop.get( i ) );
@@ -54,7 +53,6 @@ public class GetTeams extends StartFirefoxDriver
         new WebDriverWait( driver, 20 ).until( ExpectedConditions.urlContains( "team" ) );
         String currentUrl = driver.getCurrentUrl();
         teamIds.add( currentUrl.substring( 69 ) );
-        System.out.println( currentUrl.substring( 69 ) );
         rosterMembers = driver.findElementsByClassName( "member-username" );
         for( WebElement languageElement : rosterMembers )
         {
