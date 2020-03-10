@@ -1,20 +1,23 @@
 package selenium;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import storage.Teams;
+
 public class GetTeams extends StartFirefoxDriver
 {
-    ArrayList<String> teams = new ArrayList<>();
     ArrayList<String> roster = new ArrayList<>();
-    ArrayList<String> teamIds = new ArrayList<>();
+    ArrayList<Teams> teams = new ArrayList<>();
     List<WebElement> rosterMembers;
-
+    Teams team;
 
     // Constructer
     public GetTeams()
@@ -23,7 +26,7 @@ public class GetTeams extends StartFirefoxDriver
     }
 
 
-    public List<String> scrapeTeams()
+    public List<Teams> scrapeTeams()
     {
 
         driver.navigate().to( "https://gamebattles.majorleaguegaming.com/my-competitions" );
@@ -33,15 +36,14 @@ public class GetTeams extends StartFirefoxDriver
         
         for( int i = 0; i < size; i++ )
         {
+            team = new Teams();
             wait.until(ExpectedConditions.elementToBeClickable((By.className("team-name"))));
             List<WebElement> teamElementsInLoop = driver.findElementsByClassName( "team-name" );
             size = teamElementsInLoop.size();         
-            System.out.println(teamElementsInLoop.get( i ).getText());
-            teams.add( teamElementsInLoop.get(i).getText() );
+            team.setTeamName( teamElementsInLoop.get(i).getText() );
             scrapeEachTeamDetails( teamElementsInLoop.get( i ) );
             driver.navigate().back();
         }
-
         return teams;
     }
 
@@ -52,18 +54,19 @@ public class GetTeams extends StartFirefoxDriver
         langElement.click();
         new WebDriverWait( driver, 20 ).until( ExpectedConditions.urlContains( "team" ) );
         String currentUrl = driver.getCurrentUrl();
-        teamIds.add( currentUrl.substring( 69 ) );
+        team.setTeamId( currentUrl.substring( 69 ) );
         rosterMembers = driver.findElementsByClassName( "member-username" );
         for( WebElement languageElement : rosterMembers )
         {
             roster.add( languageElement.getText() );
-            System.out.println( languageElement.getText() );
-
         }
+        team.setRoster( roster );
+        teams.add( team );
+        roster.clear();
     }
 
-    public List<String> getTeams()
+    public List<Teams> getTeams()
     {
         return teams;
-    }
+    }  
 }

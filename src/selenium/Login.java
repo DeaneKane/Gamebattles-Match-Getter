@@ -42,7 +42,7 @@ public class Login extends StartFirefoxDriver
     public void loginUser() throws Exception
     {
 
-        checkForPrivacyPrompt();
+//        checkForPrivacyPrompt();
 
         if( !checkIfAlreadyLoggedIn() )
         {

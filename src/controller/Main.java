@@ -2,6 +2,7 @@ package controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -46,11 +47,11 @@ public class Main extends Application
         getTeamsButton.setOnAction( e -> {
             GetTeams getTeams = new GetTeams();
             getTeams.scrapeTeams();
-            if( !getTeams.getTeams().isEmpty() )
-            {
+            if( !getTeams.getTeams().isEmpty() )                      
+            {             
                 for( int i = 0; i < getTeams.getTeams().size(); i++ )
                 {
-                    Button teamName = new Button( getTeams.getTeams().get( i ) );
+                    Button teamName = new Button( getTeams.getTeams().get(i).getTeamName()  );
                     teamNamesButtons.add( teamName );
                     layout1.getChildren().add( teamNamesButtons.get( i ) );
                 }
