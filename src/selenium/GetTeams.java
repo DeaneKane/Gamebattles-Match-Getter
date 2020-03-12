@@ -14,7 +14,7 @@ import storage.Teams;
 
 public class GetTeams extends StartFirefoxDriver
 {
-    ArrayList<String> roster = new ArrayList<>();
+    ArrayList<String> roster;
     ArrayList<Teams> teams = new ArrayList<>();
     List<WebElement> rosterMembers;
     Teams team;
@@ -37,6 +37,7 @@ public class GetTeams extends StartFirefoxDriver
         for( int i = 0; i < size; i++ )
         {
             team = new Teams();
+            roster = new ArrayList<>();
             wait.until(ExpectedConditions.elementToBeClickable((By.className("team-name"))));
             List<WebElement> teamElementsInLoop = driver.findElementsByClassName( "team-name" );
             size = teamElementsInLoop.size();         
@@ -62,7 +63,6 @@ public class GetTeams extends StartFirefoxDriver
         }
         team.setRoster( roster );
         teams.add( team );
-        roster.clear();
     }
 
     public List<Teams> getTeams()

@@ -8,27 +8,34 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
+import javafx.scene.layout.HBox;
+import javafx.scene.control.CheckBox;
 import javafx.stage.Stage;
 import selenium.GetTeams;
 import selenium.Login;
+import storage.Teams;
 
 @SuppressWarnings("restriction")
 public class Main extends Application
 {
 
-    List<Button> teamNamesButtons = new ArrayList<>();
+    GetTeams getTeams = new GetTeams();
+    VBox layout1;
+    HBox hbox;
+    Scene mainScene, teamScene;
+
 
     public static void main( String[] args )
     {
         launch( args );
     }
 
+
     @Override
     public void start( Stage primaryStage ) throws Exception
-    {
-        Scene mainScene;
+    {        
         Button loginButton = new Button( "Login" );
-        VBox layout1 = new VBox( 20 );
+        layout1 = new VBox( 20 );
         loginButton.setOnAction( e -> {
             Login login = new Login();
             try
@@ -45,18 +52,30 @@ public class Main extends Application
 
         Button getTeamsButton = new Button( "Load Teams and Details" );
         getTeamsButton.setOnAction( e -> {
-            GetTeams getTeams = new GetTeams();
             getTeams.scrapeTeams();
-            if( !getTeams.getTeams().isEmpty() )                      
-            {             
-                for( int i = 0; i < getTeams.getTeams().size(); i++ )
-                {
-                    Button teamName = new Button( getTeams.getTeams().get(i).getTeamName()  );
-                    teamNamesButtons.add( teamName );
-                    layout1.getChildren().add( teamNamesButtons.get( i ) );
-                }
-                getTeamsButton.setDisable( true );
+
+
+            for( Teams team : getTeams.getTeams() )
+            {
+                Button teamName = new Button( team.getTeamName());
+                layout1.getChildren().add( teamName );                
+                teamName.setOnAction(evt -> {              
+                    
+                    for (String player : team.getRoster()) {
+                        CheckBox players = new CheckBox(player);
+                        layout1.getChildren().add( players );
+                    }
+                    
+                    Button getGb = new Button("GET GB");
+                    layout1.getChildren().add( getGb );
+                    getGb.setOnAction( g -> {
+                        
+                    });
+                    
+                });
+
             }
+
         } );
 
         // Layout 1
@@ -68,4 +87,5 @@ public class Main extends Application
         primaryStage.show();
 
     }
+
 }
